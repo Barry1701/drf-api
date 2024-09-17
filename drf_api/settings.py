@@ -63,6 +63,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-barry1701-drfapi-sa8d0qg8z40.ws-eu116.gitpod.io',
+]
+
 ROOT_URLCONF = 'drf_api.urls'
 
 TEMPLATES = [

@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from .models import Post
+from posts.models import Post
 
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
-    profile_image = serializer.ReadOnlyField(source='owner.profile.image.url')
+    profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
 
 
     def validate_image(self, value):
@@ -24,7 +24,7 @@ class PostSerializer(serializers.ModelSerializer):
         return value
 
 
-    def get_is_owner():
+    def get_is_owner(self, obj):
         request = self.context['request']
         return request.user == obj.owner
 
@@ -32,7 +32,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = [
             'id', 'owner', 'created_at', 'updated_at',
-            'content', 'is_owner','upload_to','title', 
-            'profile_id', 'profile_image','image_filter'
+            'content', 'is_owner','title', 
+            'profile_id', 'profile_image','image_filter', 'image',
         ]
 

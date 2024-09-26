@@ -60,10 +60,13 @@ REST_AUTH_SERIALIZERS = {
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'DEV' in os.environ
 
-ALLOWED_HOSTS = ['8000-barry1701-drfapi-sa8d0qg8z40.ws-eu116.gitpod.io', os.environ.get('ALLOWED_HOST')]
-
+ALLOWED_HOSTS = [
+    '8000-barry1701-drfapi-sa8d0qg8z40.ws-eu116.gitpod.io',
+    os.environ.get('ALLOWED_HOST'),
+    'rest-framework-project-d7776b473078.herokuapp.com'
+]
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-barry1701-drfapi-sa8d0qg8z40.ws-eu116.gitpod.io',
     'https://rest-framework-project-d7776b473078.herokuapp.com/'

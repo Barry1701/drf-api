@@ -65,11 +65,13 @@ DEBUG = 'DEV' in os.environ
 ALLOWED_HOSTS = [
     '8000-barry1701-drfapi-sa8d0qg8z40.ws-eu116.gitpod.io',
     os.environ.get('ALLOWED_HOST'),
-    'rest-framework-project-d7776b473078.herokuapp.com'
+    'rest-framework-project-d7776b473078.herokuapp.com',
+    '3000-barry1701-momenty-g6m2tt2gpi1.ws.codeinstitute-ide.net'
 ]
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-barry1701-drfapi-sa8d0qg8z40.ws-eu116.gitpod.io',
-    'https://rest-framework-project-d7776b473078.herokuapp.com/'
+    'https://rest-framework-project-d7776b473078.herokuapp.com/',
+    'https://3000-barry1701-momenty-g6m2tt2gpi1.ws.codeinstitute-ide.net' 
 ]
 
 # Application definition

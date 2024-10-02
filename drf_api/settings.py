@@ -116,6 +116,11 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'https://3000-barry1701-momenty-g6m2tt2gpi1.ws.codeinstitute-ide.net',  # Frontend URL
+    'https://rest-framework-project-d7776b473078.herokuapp.com',
+]
+
 if 'CLIENT_ORIGIN_DEV' in os.environ:
     extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
     CORS_ALLOWED_ORIGIN_REGEXES = [

@@ -117,7 +117,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'https://3000-barry1701-momenty-g6m2tt2gpi1.ws.codeinstitute-ide.net',  # Frontend URL
+    'https://3000-barry1701-momenty-g6m2tt2gpi1.ws.codeinstitute-ide.net',  
     'https://rest-framework-project-d7776b473078.herokuapp.com',
 ]
 

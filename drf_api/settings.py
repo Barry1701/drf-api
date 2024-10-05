@@ -23,9 +23,11 @@ CLOUDINARY_STORAGE = {
 }
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# REST Framework Configuration
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
         'rest_framework.authentication.SessionAuthentication'
@@ -37,18 +39,20 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': '%d %b %Y',
 }
+
 if 'DEV' not in os.environ:
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
         'rest_framework.renderers.JSONRenderer',
     ]
 
+# JWT Authentication Settings
 REST_USE_JWT = True
-JWT_AUTH_SECURE = True
-JWT_AUTH_COOKIE = 'my-app-auth'
-JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-JWT_AUTH_SAMESITE = 'None'
+JWT_AUTH_SECURE = True  # Secure cookies (HTTPS)
+JWT_AUTH_COOKIE = 'my-app-auth'  # Cookie name for JWT access token
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'  # Cookie name for JWT refresh token
+JWT_AUTH_SAMESITE = 'None'  # Allow cross-origin requests (use "None" for cross-origin with credentials)
 
-
+# Custom User Serializer
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
 }
@@ -68,14 +72,41 @@ ALLOWED_HOSTS = [
     'rest-framework-project-d7776b473078.herokuapp.com',
     '3000-barry1701-momenty-g6m2tt2gpi1.ws.codeinstitute-ide.net'
 ]
+
+# CSRF trusted origins (ensure these match your frontend)
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-barry1701-drfapi-sa8d0qg8z40.ws-eu116.gitpod.io',
-    'https://rest-framework-project-d7776b473078.herokuapp.com/',
-    'https://3000-barry1701-momenty-g6m2tt2gpi1.ws.codeinstitute-ide.net' 
+    'https://rest-framework-project-d7776b473078.herokuapp.com',
+    'https://3000-barry1701-momenty-g6m2tt2gpi1.ws.codeinstitute-ide.net'
 ]
 
-# Application definition
+# CORS Configuration
+CORS_ALLOWED_ORIGINS = [
+    'https://3000-barry1701-momenty-g6m2tt2gpi1.ws.codeinstitute-ide.net',  
+    'https://rest-framework-project-d7776b473078.herokuapp.com',
+]
 
+# Support dynamic origins for development environments like Gitpod
+if 'CLIENT_ORIGIN_DEV' in os.environ:
+    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+    ]
+
+CORS_ALLOW_CREDENTIALS = True  # Allow cookies in cross-origin requests
+
+# Allow necessary headers for authentication (including Authorization and CSRF)
+CORS_ALLOW_HEADERS = [
+    'authorization',
+    'content-type',
+    'x-csrftoken',
+]
+
+# CSRF Configuration
+CSRF_COOKIE_NAME = "csrftoken"  # Default name for CSRF token
+CSRF_HEADER_NAME = "X-CSRFToken"  # Header for CSRF token in requests
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -101,11 +132,12 @@ INSTALLED_APPS = [
     'comments',
     'likes',
     'followers',
- 
 ]
+
 SITE_ID = 1
+
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Must be at the top for CORS handling
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -115,20 +147,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
 ]
-
-CORS_ALLOWED_ORIGINS = [
-    'https://3000-barry1701-momenty-g6m2tt2gpi1.ws.codeinstitute-ide.net',  
-    'https://rest-framework-project-d7776b473078.herokuapp.com',
-]
-
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
-
-CORS_ALLOW_CREDENTIALS = True
-
 
 ROOT_URLCONF = 'drf_api.urls'
 
@@ -151,25 +169,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'drf_api.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+# Database Configuration
 if 'DEV' in os.environ:
     DATABASES = {
-         'default': {
-             'ENGINE': 'django.db.backends.sqlite3',
-             'NAME': BASE_DIR / 'db.sqlite3',
-         }
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 else:
     DATABASES = {
-         'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
     }
-    
 
 # Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -185,10 +198,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -201,11 +211,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 STATIC_URL = '/static/'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

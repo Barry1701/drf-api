@@ -102,6 +102,15 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
 ]
 
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+
 # CSRF Configuration
 CSRF_COOKIE_NAME = "csrftoken"  # Default name for CSRF token
 CSRF_HEADER_NAME = "X-CSRFToken"  # Header for CSRF token in requests
